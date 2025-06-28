@@ -419,25 +419,20 @@
                     body: JSON.stringify({ email: email })
                 });
 
-                const result = await response.json();
+                const text = await response.text();
+                let result;
+                try {
+                result = JSON.parse(text);
+                } catch {
+                    throw new Error('Server returned invalid JSON: ' + text);
+                }
 
                 if (response.ok && result.success) {
-                    modal.style.display = 'none';
-                    showStatus(
-                        'Account deleted successfully. All your data has been permanently removed from our system.',
-                        'success'
-                    );
-                    
-                    // Clear the form
-                    form.reset();
-                    
-                    // Redirect after delay
-                    setTimeout(() => {
-                        window.location.href = 'https://your-app-homepage.com';
-                    }, 5000);
+                    alert('Account deleted successfully!');
                 } else {
-                    throw new Error(result.message || 'Failed to delete account');
+                    throw new Error(result.message || 'Account deletion failed');
                 }
+
                 
             } catch (error) {
                 modal.style.display = 'none';
