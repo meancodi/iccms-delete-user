@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Account - ICCMS Conference</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+            padding: 40px;
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #333;
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .warning-box {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            border-left: 5px solid #c23616;
+        }
+
+        .warning-box h3 {
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+
+        .warning-box ul {
+            margin-left: 20px;
+            line-height: 1.6;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        input[type="email"], textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        input[type="email"]:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 25px;
+            gap: 12px;
+        }
+
+        input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-top: 2px;
+            accent-color: #667eea;
+        }
+
+        .checkbox-label {
+            flex: 1;
+            line-height: 1.5;
+            color: #333;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            min-width: 150px;
+        }
+
+        .btn-danger {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: linear-gradient(45deg, #ee5a24, #c23616);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(238, 90, 36, 0.3);
+        }
+
+        .btn-secondary {
+            background: #f8f9fa;
+            color: #333;
+            border: 2px solid #e0e0e0;
+        }
+
+        .btn-secondary:hover {
+            background: #e9ecef;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .info-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            border-left: 5px solid #667eea;
+        }
+
+        .info-section h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .info-section ul {
+            margin-left: 20px;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        .contact-info {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 25px;
+            border-top: 2px solid #e0e0e0;
+            color: #666;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 15% auto;
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            animation: modalSlide 0.3s ease-out;
+        }
+
+        @keyframes modalSlide {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .modal h3 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .modal p {
+            margin-bottom: 20px;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .status-message {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .status-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .status-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 25px;
+                margin: 10px;
+            }
+
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .button-group {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Delete Your Account</h1>
+            <p>ICCMS Conference Management System</p>
+        </div>
+
+        <div class="warning-box">
+            <h3>⚠️ Warning: This action is permanent</h3>
+            <ul>
+                <li>Your account and all associated data will be permanently deleted</li>
+                <li>Conference registrations, submissions, and payment records will be removed</li>
+                <li>This action cannot be undone</li>
+                <li>You will lose access to certificates and conference materials</li>
+            </ul>
+        </div>
+
+        <div class="info-section">
+            <h3>What data will be deleted:</h3>
+            <ul>
+                <li>Personal information (name, email, mobile number)</li>
+                <li>Registration details and role assignments</li>
+                <li>Abstract and submission records</li>
+                <li>Payment and transaction history</li>
+                <li>Meal preferences and passes</li>
+                <li>Authentication credentials</li>
+            </ul>
+        </div>
+
+        <div id="statusMessage" class="status-message"></div>
+
+        <form id="deleteAccountForm">
+            <div class="form-group">
+                <label for="email">Enter your registered email address:</label>
+                <input type="email" id="email" name="email" required 
+                       placeholder="your.email@example.com">
+            </div>
+
+
+
+            <div class="checkbox-group">
+                <input type="checkbox" id="confirmDelete" required>
+                <label for="confirmDelete" class="checkbox-label">
+                    I understand that this action is permanent and irreversible. 
+                    I confirm that I want to delete my account and all associated data.
+                </label>
+            </div>
+
+            <div class="button-group">
+                <button type="submit" class="btn btn-danger">Delete Account</button>
+                <a href="#" class="btn btn-secondary" onclick="window.history.back()">Cancel</a>
+            </div>
+        </form>
+
+        <div class="contact-info">
+            <p><strong>Need help?</strong></p>
+            <p>Contact us at: <strong>support@iccms-conference.com</strong></p>
+            <p>Or call: <strong>+91-12345-67890</strong></p>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div id="confirmModal" class="modal">
+        <div class="modal-content">
+            <h3>Final Confirmation</h3>
+            <p>Are you absolutely sure you want to delete your account? This action cannot be undone.</p>
+            <div class="button-group">
+                <button id="finalConfirm" class="btn btn-danger">Yes, Delete My Account</button>
+                <button id="cancelDelete" class="btn btn-secondary">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('deleteAccountForm');
+        const modal = document.getElementById('confirmModal');
+        const finalConfirmBtn = document.getElementById('finalConfirm');
+        const cancelBtn = document.getElementById('cancelDelete');
+        const statusMessage = document.getElementById('statusMessage');
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value.trim();
+            const confirmDelete = document.getElementById('confirmDelete').checked;
+
+            if (!email || !confirmDelete) {
+                showStatus('Please fill in all required fields and confirm deletion.', 'error');
+                return;
+            }
+
+            // Validate email format
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                showStatus('Please enter a valid email address.', 'error');
+                return;
+            }
+
+            // Show confirmation modal
+            modal.style.display = 'block';
+        });
+
+        finalConfirmBtn.addEventListener('click', function() {
+            const email = document.getElementById('email').value.trim();
+            
+            // Process the deletion
+            processAccountDeletion(email);
+        });
+
+        cancelBtn.addEventListener('click', function() {
+            modal.style.display = 'none';
+        });
+
+        window.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+
+        async function processAccountDeletion(email) {
+            // Show processing status
+            showStatus('Processing your account deletion request...', 'info');
+            
+            try {
+                const response = await fetch('/api/delete-account', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email: email })
+                });
+
+                const result = await response.json();
+
+                if (response.ok && result.success) {
+                    modal.style.display = 'none';
+                    showStatus(
+                        'Account deleted successfully. All your data has been permanently removed from our system.',
+                        'success'
+                    );
+                    
+                    // Clear the form
+                    form.reset();
+                    
+                    // Redirect after delay
+                    setTimeout(() => {
+                        window.location.href = 'https://your-app-homepage.com';
+                    }, 5000);
+                } else {
+                    throw new Error(result.message || 'Failed to delete account');
+                }
+                
+            } catch (error) {
+                modal.style.display = 'none';
+                showStatus('Error: ' + error.message, 'error');
+            }
+        }
+
+        function showStatus(message, type) {
+            statusMessage.textContent = message;
+            statusMessage.className = `status-message status-${type}`;
+            statusMessage.style.display = 'block';
+            
+            // Auto-hide after 10 seconds for non-success messages
+            if (type !== 'success') {
+                setTimeout(() => {
+                    statusMessage.style.display = 'none';
+                }, 10000);
+            }
+        }
+
+        // Add some interactive elements
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add hover effects to form elements
+            const inputs = document.querySelectorAll('input, textarea');
+            inputs.forEach(input => {
+                input.addEventListener('focus', function() {
+                    this.parentElement.style.transform = 'scale(1.02)';
+                    this.parentElement.style.transition = 'transform 0.2s ease';
+                });
+                
+                input.addEventListener('blur', function() {
+                    this.parentElement.style.transform = 'scale(1)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
